@@ -1,0 +1,64 @@
+1)create middlwares.py file
+2)activate middlwares by registering it in setting.py file middlware
+	 appname.middlwarefilename.middlwareFunctionName/MiddlwareclassName
+	'middlwareapp.middlwares.simple_middleware',
+3)In middlwares.py file define function/class based middlware pass argument get_respone
+def simpleMiddlware(get_respone):
+4)get_respone willl pass control to next middlwareif there is any next middlware
+if its last middlware then it will pass control towards view
+5)write another function inside it
+ def my_function(request)
+6)write code which is excuted before view
+7)write response=get_respone(request)
+8)write code which is excuted after view
+9)return response
+10)return function 
+ Example :
+ def my_middlware(get_respone)
+	print("one time initialization activity")
+	def my_function(request):
+		print("this is before view")
+		response = get_respone(request)
+		print("this is Afer view")
+		return response
+	return my_function	
+
+**********Class based Middlware
+
+1)__init__
+2)__call
+class MyMiddleware:
+	def __init__(self,get_respone):   ###__init__ will executed 1 when server get initialize
+	self.get_respone=get_respone
+	#one time configuration and initialization
+	def __call__(Self,request):
+	#Code to be executed for each request before the view(and later middlware)Are called
+	response=self.get_respone(request)
+	#code to be executed for each req/resp afetr the view is called
+	return response
+	
+********middlware hooks	
+
+Hooks is method define inside middlware
+1)process_view()
+process_view(request, view_func, view_args, view_kwargs)
+- proces view is called before view
+-It should return either None or an HttpResponse object.
+-It it return none then it will continue execution  of the view 
+-if its returning httpresponse then execution of view is not happend
+2)process_exception()
+-process_exception(request, exception)
+-it get call when view raises exception
+3)process_template_response()
+-process_template_response() is called just after the view has finished executing
+
+******************* Built in middlware
+1) 'django.middleware.security.SecurityMiddleware',  
+2) 'django.contrib.sessions.middleware.SessionMiddleware',===>
+3) 'django.middleware.common.CommonMiddleware',    =====> it appned slash in url
+4) 'django.middleware.csrf.CsrfViewMiddleware',
+5) 'django.contrib.auth.middleware.AuthenticationMiddleware',
+6) 'django.contrib.messages.middleware.MessageMiddleware',
+7) 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+  
